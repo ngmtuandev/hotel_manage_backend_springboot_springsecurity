@@ -19,6 +19,15 @@ public class RoomResponse {
         this.roomPrice = roomPrice;
     }
 
+    public RoomResponse(Long roomID, String roomType, BigDecimal roomPrice, boolean booked, String photoBase64) {
+
+        this.roomPrice = roomPrice;
+        this.roomType = roomType;
+        this.photo = photoBase64;
+        this.id = roomID;
+
+    }
+
     @Override
     public String toString() {
         return "RoomResponse{" +
@@ -55,8 +64,11 @@ public class RoomResponse {
         return photo;
     }
 
+
+    // Full data -> dùng để hiển thị
     public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean isBooked,
                         byte[] photoBytes , List<BookingResponse> bookings) {
+        super();
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;

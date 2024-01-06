@@ -17,7 +17,11 @@ public class WebSecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/rooms/add/new-room").permitAll()
+                        .requestMatchers("/rooms/add/new-room",
+                                "/rooms/room/types",
+                                "/rooms/all-room",
+                                    "/rooms/delete/room/{roomID}"
+                                ).permitAll()
                         )
                 .build();
     }

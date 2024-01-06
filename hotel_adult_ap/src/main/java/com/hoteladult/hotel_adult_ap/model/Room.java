@@ -26,6 +26,7 @@ public class Room {
     private boolean isBooked = false;
 
     @Lob
+    @Basic(fetch = FetchType.EAGER)
     private Blob photo;
 
 

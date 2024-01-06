@@ -3,6 +3,7 @@ package com.hoteladult.hotel_adult_ap.services;
 import com.hoteladult.hotel_adult_ap.DTO.RoomCreatedRequest;
 import com.hoteladult.hotel_adult_ap.model.Room;
 import com.hoteladult.hotel_adult_ap.reposiroty.RoomRepositories;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomServiceImplement implements IRoomService {
@@ -18,6 +21,7 @@ public class RoomServiceImplement implements IRoomService {
     RoomRepositories roomRepositories;
 
     @Override
+    @Transactional
     public Room addNewRoom(RoomCreatedRequest roomCreatedRequest) throws SQLException, IOException {
         Room room_new = new Room();
         room_new.setRoomPrice(roomCreatedRequest.getRoomPrice());
@@ -29,4 +33,44 @@ public class RoomServiceImplement implements IRoomService {
         }
         return roomRepositories.save(room_new);
     }
+
+
+    @Override
+    public List<String> getAllRoomTypes() {
+        return roomRepositories.findDistinctRoomTypes();
+    }
+
+    @Override
+    public List<Room> getAllRooms() {
+        return roomRepositories.findAll();
+    }
+
+
+    // get photo (đặc biệt)
+    @Override
+    @Transactional
+    public byte[] getRoomPhotoByRoomID(Long roomId) throws SQLException {
+        Optional<Room> theRoom = roomRepositories.findById(roomId);
+        if(theRoom.isEmpty()){
+            System.out.println("not found");
+        }
+        Blob photoBlob = theRoom.get().getPhoto();
+        if(photoBlob != null){
+            // get theo blob
+            return photoBlob.getBytes(1, (int) photoBlob.length());
+        }
+        return null;
+    }
+
+    @Override
+    public Void deleteRoom(Long roomID) {
+
+        //Optional -> không cần kiểm tra null -> isPresent(), orElse()
+        Optional<Room> theRoomDelete = roomRepositories.findById(roomID);
+        if (theRoomDelete.isPresent()) {
+            roomRepositories.deleteById(roomID);
+        }
+        return null;
+    }
+
 }
