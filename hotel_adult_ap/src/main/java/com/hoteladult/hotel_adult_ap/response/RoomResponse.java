@@ -31,6 +31,30 @@ public class RoomResponse {
                 '}';
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public BigDecimal getRoomPrice() {
+        return roomPrice;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public List<BookingResponse> getBookings() {
+        return bookings;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
     public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean isBooked,
                         byte[] photoBytes , List<BookingResponse> bookings) {
         this.id = id;

@@ -27,6 +27,9 @@ public class RoomController {
 
     @PostMapping("/add/new-room")
     public ResponseEntity<ResultModel> addNewRoom(
+
+            // @RequestParam : url query hoặc formdata
+            // trường hp này ửi lên bằng formData
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("roomType") String roomType,
             @RequestParam("roomPrice")BigDecimal roomPrice
@@ -41,7 +44,7 @@ public class RoomController {
         RoomResponse response_new_room = new RoomResponse(newSaveRoom.getRoomID(), newSaveRoom.getRoomType(), newSaveRoom.getRoomPrice());
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResultModel("ok", "Create room successfully", newSaveRoom)
+                new ResultModel("ok", "Create room successfully", response_new_room)
         );
 
     }

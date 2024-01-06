@@ -10,5 +10,4 @@ public interface IRoomService {
 
     Room addNewRoom (RoomCreatedRequest roomCreatedRequest) throws SQLException, IOException;
 
-
 }
