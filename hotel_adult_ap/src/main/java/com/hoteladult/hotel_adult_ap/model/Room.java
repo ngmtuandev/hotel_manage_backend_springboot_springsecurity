@@ -112,4 +112,7 @@ public class Room {
     public void setBookings(List<BookedRoom> bookings) {
         this.bookings = bookings;
     }
+
+    public void setPhoto(String photoBase64) {
+    }
 }

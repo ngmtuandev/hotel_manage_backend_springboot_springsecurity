@@ -93,4 +93,9 @@ public class RoomServiceImplement implements IRoomService {
 
     }
 
+    @Override
+    public Optional<Room> getRoomById(Long roomId) {
+        return roomRepositories.findById(roomId);
+    }
+
 }

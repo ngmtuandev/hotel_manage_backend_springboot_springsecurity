@@ -21,7 +21,8 @@ public class WebSecurityConfig {
                                 "/rooms/room/types",
                                 "/rooms/all-room",
                                 "/rooms/delete/room/{roomID}",
-                                "/rooms/update/{roomID}"
+                                "/rooms/update/{roomID}",
+                                "/rooms/room/{roomId}"
                                 ).permitAll()
                         )
                 .build();

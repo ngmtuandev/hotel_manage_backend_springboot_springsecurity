@@ -23,6 +23,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rooms")
@@ -122,6 +123,31 @@ public class RoomController {
                 new ResultModel("ok", "Create room successfully", roomUpdateNew)
         );
 
+
+    }
+
+
+//    ============================ Get Detail Item
+    @GetMapping("/room/{roomId}")
+    public Room getRoomById(@PathVariable Long roomId) throws SQLException {
+        System.out.println("tesst get detail >>>" + roomId);
+        Optional<Room> theRoomDetail = roomServiceImplement.getRoomById(roomId);
+
+        if (theRoomDetail.isPresent()) {
+            Room room = new Room();
+            Room roomDetail = theRoomDetail.get();
+            byte[] photoBytes = roomServiceImplement.getRoomPhotoByRoomID(roomDetail.getRoomID());
+            if (photoBytes != null && photoBytes.length > 0) {
+                String photoBase64 = Base64.encodeBase64String(photoBytes);
+                room.setRoomType(roomDetail.getRoomType());
+                room.setRoomPrice(roomDetail.getRoomPrice());
+                room.setPhoto(photoBase64);
+            }
+            return room;
+        }
+        else {
+            return null;
+        }
 
     }
 
