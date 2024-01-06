@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
@@ -98,6 +99,30 @@ public class RoomController {
         roomServiceImplement.deleteRoom(roomID);
         System.out.println("delete" + roomID);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+//    ============= Update
+    @PutMapping("/update/{roomId}")
+    public ResponseEntity<ResultModel> updateRoom(
+            @PathVariable Long roomId,
+            @RequestParam(required = false) String roomType,
+            @RequestParam(required = false) BigDecimal roomPrice,
+            @RequestParam(required = false) MultipartFile photo
+            ) throws IOException, SQLException {
+        System.out.println("check update >>>>" + roomType);
+        byte[] photoBytes = photo != null && !photo.isEmpty() ? photo.getBytes() : roomServiceImplement.getRoomPhotoByRoomID(roomId);
+        Blob photoBlob = photoBytes != null && photoBytes.length > 0
+                ? new SerialBlob(photoBytes) : null;
+        Room theRoomUpdated = roomServiceImplement.updateRoom(roomId, roomType, roomPrice, photoBytes);
+        theRoomUpdated.setPhoto(photoBlob);
+        RoomResponse roomUpdateNew = getRoomResponse(theRoomUpdated);
+        System.out.println("roomUpdateNew >>>>" + roomUpdateNew);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResultModel("ok", "Create room successfully", roomUpdateNew)
+        );
+
+
     }
 
 

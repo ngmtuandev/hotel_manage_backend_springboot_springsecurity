@@ -20,7 +20,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/rooms/add/new-room",
                                 "/rooms/room/types",
                                 "/rooms/all-room",
-                                    "/rooms/delete/room/{roomID}"
+                                "/rooms/delete/room/{roomID}",
+                                "/rooms/update/{roomID}"
                                 ).permitAll()
                         )
                 .build();

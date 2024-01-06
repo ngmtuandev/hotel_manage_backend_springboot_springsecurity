@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
@@ -71,6 +73,24 @@ public class RoomServiceImplement implements IRoomService {
             roomRepositories.deleteById(roomID);
         }
         return null;
+    }
+
+    @Override
+    public Room updateRoom(Long roomId, String roomType, BigDecimal roomPrice, byte[] photoBytes) {
+        Room find_room = roomRepositories.findById(roomId).get();
+        if (roomType != null) find_room.setRoomType(roomType);
+        if (roomPrice != null) find_room.setRoomPrice(roomPrice);
+        if (photoBytes != null && photoBytes.length > 0) {
+            try {
+                find_room.setPhoto(new SerialBlob(photoBytes));
+            } catch (SerialException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return roomRepositories.save(find_room);
+
     }
 
 }
