@@ -35,15 +35,16 @@ public class UserServiceImplement implements IUserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role role_user = roleRepository.findByName("USER").get();
 
-        // tao 1 set chi chua 1 phan tu
+        // tao 1 set chi chua 1 phan tu -> set Role for User
         user.setRoles(Collections.singleton(role_user));
+
         return userRepository.save(user);
 
     }
 
     @Override
     public List<User> getListUser() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -53,7 +54,8 @@ public class UserServiceImplement implements IUserService{
 
     @Override
     public User getOneUser(String email) {
-        return null;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserAlreadyExistsException("user not founf"));
     }
 
     public UserRepository getUserRepository() {

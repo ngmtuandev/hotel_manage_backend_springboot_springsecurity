@@ -35,7 +35,9 @@ public class WebSecurityConfig {
                                 "role/delete/{roleId}",
                                 "role/assign-role-for-user",
                                 "role/get_all_role",
-                                "role/remove-user-from-role"
+                                "role/remove-user-from-role",
+                                "users/all",
+                                "users/{email}"
                                 ).permitAll()
                         )
                 .build();
